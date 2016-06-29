@@ -13,6 +13,11 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+% predictions is m * 1 vector which is h_theta(x): predicted value using current theta parameters
+predictions = X * theta	
+
+% use the predictions to compute J(theta)
+J = (1/2*m) * sum((predictions - y) .^ 2)
 
 
 
