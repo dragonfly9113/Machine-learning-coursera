@@ -18,14 +18,9 @@ for iter = 1:num_iters
     %
 
 
-
-
-
-
-
-
-
-
+    predictions = X * theta;
+    
+    theta = theta - (X' * (predictions - y)) * alpha / m
 
     % ============================================================
 

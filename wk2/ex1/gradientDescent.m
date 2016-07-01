@@ -19,9 +19,9 @@ for iter = 1:num_iters
 
     predictions = X * theta;
     
-    theta = theta - (X' * (predictions - y)) * alpha / m
+    theta = theta - (X' * (predictions - y)) * alpha / m;
 
-    J_theta = computeCost(X, y, theta)
+    J_theta = computeCost(X, y, theta);
 
 
     % ============================================================
