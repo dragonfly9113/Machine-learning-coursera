@@ -26,12 +26,16 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
+% First for each feature dimension, compute the mean of the feture the substract it from the dataset
+for i = 1:size(X, 2)
+    mu(i) = mean(X(:, i));
+	X_norm(:, i) = X_norm(:, i) - mu(i);
+end
 
-
-
-
-
-
+for i = 1:size(X, 2)
+    sigma(i) = std(X(:, i));
+	X_norm(:, i) = X_norm(:, i) / sigma(i);
+end
 
 
 % ============================================================
