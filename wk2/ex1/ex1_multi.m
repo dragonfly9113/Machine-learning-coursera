@@ -89,9 +89,21 @@ num_iters = 400;
 theta = zeros(3, 1);
 [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
 
+% Try different alpha
+%alpha = 0.03;
+%theta = zeros(3, 1);
+%[theta, J1_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+
+%alpha = 0.1;
+%theta = zeros(3, 1);
+%[theta, J2_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+
 % Plot the convergence graph
 figure;
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+%hold on;
+%plot(1:numel(J1_history), J1_history, 'r', 'LineWidth', 2);
+%plot(1:numel(J2_history), J2_history, 'k', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
 
@@ -150,7 +162,8 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-x = [1, (1650 - mu(1))/sigma(1), (3 - mu(2))/sigma(2)];
+% For normal equation, no need to normalize x
+x = [1, 1650, 3];
 price = x * theta;
 
 
