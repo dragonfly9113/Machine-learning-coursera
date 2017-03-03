@@ -30,13 +30,25 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% pred is matrix of m * K, each row of pred is a vector of all
+% probabilities for this input to be each class
+pred = zeros(m, num_labels);
 
+for k = 1:num_labels
+   
+    pred(:,k) = sigmoid(X * all_theta(k,:)');
 
+end
 
-
+% [Y,I] = max(X) returns the indices of the maximum values in vector I.
+%    If the values along the first non-singleton dimension contain more
+%    than one maximal element, the index of the first one is returned.
+% [Y,I] = max(X,[],DIM) operates along the dimension DIM. 
+[Y, p] = max(pred, [], 2);
 
 
 % =========================================================================
+
 
 
 end
