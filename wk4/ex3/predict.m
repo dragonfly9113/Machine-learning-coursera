@@ -20,14 +20,34 @@ p = zeros(size(X, 1), 1);
 %       information see 'help max'. If your examples are in rows, then, you
 %       can use max(A, [], 2) to obtain the max for each row.
 %
+% s2 is the number of nodes at the hidden layer
+s2 = 25;
 
+% s3 is the number of nodes at the output layer
+s3 = num_labels;
 
+% res is a matrix to hold predictions of each class for each input
+res = zeros(m, num_labels);
 
+% Add bias units to inputs X
+X = [ones(m, 1) X];
 
+% Use for loop to compute predictions for each input
+for i = 1:m
+    % take one input: 1 * (n+1)
+    a1 = X(i, :);   
+    % compute hidden layer features a2: s2 * 1
+    a2 = sigmoid(Theta1 * a1');
+    % add ones to a2: (s2 + 1) * 1
+    a2 = [1 ; a2];
+    % compute output layer a3: s3 * 1
+    a3 = sigmoid(Theta2 * a2);
+    % store results in matrix res
+    res(i, :) = a3';
+end
 
-
-
-
+% p can be computed from res, p: m * 1
+[Y p] = max(res, [], 2);
 
 % =========================================================================
 
