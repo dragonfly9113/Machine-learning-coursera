@@ -63,7 +63,6 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 sum = 0;
-X = [ones(m, 1) X];     % X: 5000 * 401
 
 for i = 1 : m
     
@@ -72,19 +71,21 @@ for i = 1 : m
     yVec(y(i)) = 1;
     
     % Compute h_theta(x(i))
-    a1 = X(i, :)';          % a1: 401 * 1
-    z2 = Theta1 * a1;       % z2: 25 * 1
-    a2 = sigmoid(z2);       % a2: 25 * 1
+    X = [ones(m, 1) X];     % X: 5000 * 401
+    a1 = X(i, :)';          
 
-    a2 = [1 ; a2];          % a2: 26 * 1
-    z3 = Theta2 * a2;       % z3: 10 * 1
-    a3 = sigmoid(z3);       % a3: 10 * 1
 
-    sum = sum + yVec' * log(a3) + (1 - yVec)' * log(1 - a3);
 
-end
 
-J = (-1 / m) * sum;
+
+
+
+
+
+
+
+
+
 
 
 
