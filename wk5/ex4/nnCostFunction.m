@@ -62,7 +62,7 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-sum = 0;
+total = 0;
 X = [ones(m, 1) X];     % X: 5000 * 401
 
 for i = 1 : m
@@ -80,11 +80,20 @@ for i = 1 : m
     z3 = Theta2 * a2;       % z3: 10 * 1
     a3 = sigmoid(z3);       % a3: 10 * 1
 
-    sum = sum + yVec' * log(a3) + (1 - yVec)' * log(1 - a3);
+    total = total + yVec' * log(a3) + (1 - yVec)' * log(1 - a3);
 
 end
 
-J = (-1 / m) * sum;
+J = (-1 / m) * total;     % Cost w/o regularization term
+
+% Compute regulation term
+Theta1s = Theta1(:, 2:end);
+Theta2s = Theta2(:, 2:end);
+total1 = sum(sum(Theta1s .^ 2));
+total2 = sum(sum(Theta2s .^ 2));
+
+J = J + (lambda / (2 * m)) * (total1 + total2);
+
 
 
 
