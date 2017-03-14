@@ -62,7 +62,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-sum = 0;
+total = 0;
+X = [ones(m, 1) X];     % X: 5000 * 401
 
 for i = 1 : m
     
@@ -71,22 +72,56 @@ for i = 1 : m
     yVec(y(i)) = 1;
     
     % Compute h_theta(x(i))
-    X = [ones(m, 1) X];     % X: 5000 * 401
-    a1 = X(i, :)';          
+    a1 = X(i, :)';          % a1: 401 * 1
+    z2 = Theta1 * a1;       % z2: 25 * 1
+    a2 = sigmoid(z2);       % a2: 25 * 1
 
+    a2 = [1 ; a2];          % a2: 26 * 1
+    z3 = Theta2 * a2;       % z3: 10 * 1
+    a3 = sigmoid(z3);       % a3: 10 * 1
 
+    total = total + yVec' * log(a3) + (1 - yVec)' * log(1 - a3);
 
+end
 
+J = (-1 / m) * total;     % Cost w/o regularization term
 
+% Compute regulation term
+Theta1s = Theta1(:, 2:end);
+Theta2s = Theta2(:, 2:end);
+total1 = sum(sum(Theta1s .^ 2));
+total2 = sum(sum(Theta2s .^ 2));
 
+J = J + (lambda / (2 * m)) * (total1 + total2);
 
+% Backpropagation algorithm
+for i = 1 : m
+    
+    % Compute yVec from value of y(i)
+    yVec = zeros(num_labels, 1);
+    yVec(y(i)) = 1;
+    
+    % Step 1: Compute z2, a2, z3, a3
+    a1 = X(i, :)';          % a1: 401 * 1
+    z2 = Theta1 * a1;       % z2: 25 * 1
+    a2 = sigmoid(z2);       % a2: 25 * 1
 
+    a2 = [1 ; a2];          % a2: 26 * 1
+    z3 = Theta2 * a2;       % z3: 10 * 1
+    a3 = sigmoid(z3);       % a3: 10 * 1
 
+    % Step 2: Compute delta3
+    delta3 = a3 - yVec;     % delta3: 10 x 1
+    
+    % Step 3: Compute delta2
+    delta2 = Theta2' * delta3;  % delta2: 26 x 1
+    delta2 = delta2(2:end);     % delta2: 25 x 1
+    delta2 = delta2 .* sigmoidGradient(z2);
+    
+    % Step 4: Accumulate the gradients
+    Delta2 = Delta2 + delta3 * a2';     
 
-
-
-
-
+end
 
 
 
