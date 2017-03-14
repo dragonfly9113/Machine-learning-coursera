@@ -116,6 +116,14 @@ J = J + (lambda / (2 * m)) * (total1 + total2);
 Theta1_grad = Delta1 / m;
 Theta2_grad = Delta2 / m;
 
+% Regularized theta gradients
+Theta1_grad(:,1) = Delta1(:,1) / m;
+Theta1_grad(:,2:end) = Delta1(:,2:end) / m + Theta1(:,2:end) * lambda / m;
+
+Theta2_grad(:,1) = Delta2(:,1) / m;
+Theta2_grad(:,2:end) = Delta2(:,2:end) / m + Theta2(:,2:end) * lambda / m;
+
+
 % -------------------------------------------------------------
 
 % =========================================================================
