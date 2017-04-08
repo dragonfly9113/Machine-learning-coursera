@@ -68,7 +68,7 @@ while ~isempty(email_contents)
     % (the porterStemmer sometimes has issues, so we use a try catch block)
     try str = porterStemmer(strtrim(str)); 
     catch str = ''; continue;
-    end;
+    end
 
     % Skip the word if it is too short
     if length(str) < 1
@@ -97,13 +97,11 @@ while ~isempty(email_contents)
     %       str2). It will return 1 only if the two strings are equivalent.
     %
 
-
-
-
-
-
-
-
+    for i = 1:length(vocabList)
+        if (strcmp(str, vocabList{i}) == 1)
+            word_indices = [word_indices ; i];
+        end
+    end
 
 
     % =============================================================
