@@ -45,6 +45,32 @@ Yp = X * Theta';
 J = sum(sum((R .* (Yp - Y)).^ 2)) / 2;
 
 
+% First I only use for loops to compute gradients (slow)
+for i = 1 : num_movies
+    for k = 1 : num_features
+        tmp = 0;
+        for j = 1 : num_users
+            if R(i, j) == 1
+                tmp = tmp + (Theta(j, :) * X(i, :)' - Y(i, j)) * Theta(j, k);
+            end
+        end
+        X_grad(i, k) = tmp;
+    end
+end
+
+for j = 1 : num_users
+    for k = 1 : num_features
+        tmp = 0;
+        for i = 1 : num_movies
+            if R(i, j) == 1
+                tmp = tmp + (Theta(j, :) * X(i, :)' - Y(i, j)) * X(i, k);
+            end
+        end
+        Theta_grad(j, k) = tmp;
+    end
+end
+
+
 % =============================================================
 
 grad = [X_grad(:); Theta_grad(:)];
