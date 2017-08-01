@@ -45,31 +45,26 @@ Yp = X * Theta';
 J = sum(sum((R .* (Yp - Y)).^ 2)) / 2;
 
 
-% First I only use for loops to compute gradients (slow)
+% Vectorized way to compute gradients
 for i = 1 : num_movies
-    for k = 1 : num_features
-        tmp = 0;
-        for j = 1 : num_users
-            if R(i, j) == 1
-                tmp = tmp + (Theta(j, :) * X(i, :)' - Y(i, j)) * Theta(j, k);
-            end
-        end
-        X_grad(i, k) = tmp;
-    end
+    idx = find(R(i, :) == 1);   % find a list of all the users who have rated movie i
+    
+    Theta_tmp = Theta(idx, :);  % index into Theta to pick only the set of users who have rated movie i
+    
+    Y_tmp = Y(i, idx);          % index into Y to pick only the set of users who have rated movie i
+    
+    X_grad(i, :) = (X(i, :) * Theta_tmp' - Y_tmp) * Theta_tmp;
 end
 
 for j = 1 : num_users
-    for k = 1 : num_features
-        tmp = 0;
-        for i = 1 : num_movies
-            if R(i, j) == 1
-                tmp = tmp + (Theta(j, :) * X(i, :)' - Y(i, j)) * X(i, k);
-            end
-        end
-        Theta_grad(j, k) = tmp;
-    end
+    idx = find(R(:, j) == 1);   % find a list of movies that the user j has rated
+    
+    X_tmp = X(idx, :);          % index into X to pick only the set of movies that have been rated by user j
+    
+    Y_tmp = Y(idx, j);          % index into Y to pick only the set of movies that have been rated by user j
+    
+    Theta_grad(j, :) = (Theta(j, :) * X_tmp' - Y_tmp') * X_tmp;
 end
-
 
 % =============================================================
 
